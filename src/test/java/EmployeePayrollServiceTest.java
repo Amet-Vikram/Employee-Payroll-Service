@@ -3,7 +3,9 @@ import com.bridgelabz.employeepayrollservice.EmployeePayrollService;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.bridgelabz.employeepayrollservice.EmployeePayrollService.IOService.FILE_IO;
 
@@ -21,5 +23,8 @@ public class EmployeePayrollServiceTest {
         employeePayrollService.printData(FILE_IO);
         long entries = employeePayrollService.countEntries(FILE_IO);
         Assert.assertEquals(3,entries);
+        List<EmployeePayrollData> newList = employeePayrollService.readDataFromFile(FILE_IO);
+        Assert.assertEquals(3,newList.size());
+        System.out.println(newList);
     }
 }

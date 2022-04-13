@@ -49,11 +49,20 @@ public class EmployeePayrollService {
         }
     }
 
+    public List<EmployeePayrollData> readDataFromFile(IOService fileIo) {
+        List<EmployeePayrollData> employeePayrollFromFile = new ArrayList<>();
+        if(fileIo.equals(IOService.FILE_IO)) {
+            System.out.println("Employee Details from payroll-file.txt");
+            employeePayrollFromFile = new EmployeePayrollFileIOService().readData();
+        }
+        return employeePayrollFromFile;
+    }
+
     public static void main(String[] args) {
         ArrayList<EmployeePayrollData> employeePayrollList = new ArrayList<>();
         EmployeePayrollService employeePayrollService = new EmployeePayrollService(employeePayrollList);
         Scanner consoleIn = new Scanner(System.in);
-//        employeePayrollService.readEPData(consoleIn);
-//        employeePayrollService.writeEPData(FILE_IO);
+        employeePayrollService.readEPData(consoleIn);
+        employeePayrollService.writeEPData(FILE_IO);
     }
 }
