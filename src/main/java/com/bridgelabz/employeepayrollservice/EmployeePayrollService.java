@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static com.bridgelabz.employeepayrollservice.EmployeePayrollService.IOService.*;
+
 public class EmployeePayrollService {
     public enum IOService{
         CONSOLE_IO, FILE_IO, DB_IO, REST_IO
@@ -17,7 +19,7 @@ public class EmployeePayrollService {
         this.employeePayrollList = employeePayrollList;
     }
 
-    private void readEPData(Scanner consoleIn){
+    public void readEPData(Scanner consoleIn){
         System.out.println("Enter Employee ID: ");
         int id = consoleIn.nextInt();
         System.out.println("Enter Employee Name: ");
@@ -27,15 +29,24 @@ public class EmployeePayrollService {
         employeePayrollList.add(new EmployeePayrollData(id, name, salary));
     }
 
-    private void writeEPData(){
-        System.out.println("\n Writing EP data to console: " + employeePayrollList);
+    public void writeEPData(IOService fileIo){
+        switch (fileIo){
+            case CONSOLE_IO -> {
+                System.out.println("\n Writing EP data to console: " + employeePayrollList);
+            }
+            case FILE_IO -> {
+                new EmployeePayrollFileIOService().writeData(employeePayrollList);
+            }
+        }
+
+
     }
 
     public static void main(String[] args) {
         ArrayList<EmployeePayrollData> employeePayrollList = new ArrayList<>();
         EmployeePayrollService employeePayrollService = new EmployeePayrollService(employeePayrollList);
         Scanner consoleIn = new Scanner(System.in);
-        employeePayrollService.readEPData(consoleIn);
-        employeePayrollService.writeEPData();
+//        employeePayrollService.readEPData(consoleIn);
+//        employeePayrollService.writeEPData(FILE_IO);
     }
 }
