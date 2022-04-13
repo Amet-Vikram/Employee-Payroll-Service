@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.IntStream;
 import com.bridgelabz.employeepayrollservice.FileUtil;
+import com.bridgelabz.employeepayrollservice.WatchServiceExample;
 import org.junit.Test;
 
 public class NIOFileAPITest {
@@ -29,7 +30,7 @@ public class NIOFileAPITest {
         assertTrue(Files.exists(playPath));
 
         //Create Empty File
-        IntStream.range(1, 5).forEach(count -> {
+        IntStream.range(0, 5).forEach(count -> {
             Path tempFile = Paths.get(playPath + "/temp" + count);
             assertTrue(Files.notExists(tempFile));
             try {
@@ -48,5 +49,12 @@ public class NIOFileAPITest {
         System.out.println("Files.newDirectory with temp");
         Files.newDirectoryStream(playPath, path -> path.toFile().isFile() && path.toString().contains("temp"))
                 .forEach(System.out::println);
+    }
+
+    @Test
+    public void givenADir_WhenWatched_ListsAllTheActivities() throws IOException{
+        Path dir = Paths.get(HOME + "/" + PLAY_WITH_NIO);
+        Files.list(dir).filter(Files::isRegularFile).forEach(System.out::println);
+        new WatchServiceExample(dir).processEvents();
     }
 }
