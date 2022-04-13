@@ -29,6 +29,15 @@ public class EmployeePayrollService {
         employeePayrollList.add(new EmployeePayrollData(id, name, salary));
     }
 
+    public void printData(IOService fileIo) {
+        if(fileIo.equals(IOService.FILE_IO)) new EmployeePayrollFileIOService().printData();
+    }
+
+    public long countEntries(IOService fileIo) {
+        if(fileIo.equals(IOService.FILE_IO)) return new EmployeePayrollFileIOService().countEntries();
+        return 0;
+    }
+
     public void writeEPData(IOService fileIo){
         switch (fileIo){
             case CONSOLE_IO -> {
@@ -38,8 +47,6 @@ public class EmployeePayrollService {
                 new EmployeePayrollFileIOService().writeData(employeePayrollList);
             }
         }
-
-
     }
 
     public static void main(String[] args) {
